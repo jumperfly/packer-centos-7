@@ -1,0 +1,51 @@
+{
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "vm_name": "centos-7-base",
+            "guest_additions_mode": "disable",
+            "iso_urls": [
+                "http://www.mirrorservice.org/sites/mirror.centos.org/7.6.1810/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso",
+                "http://mirrors.melbourne.co.uk/sites/ftp.centos.org/centos/7.6.1810/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso",
+                "http://mirror.bytemark.co.uk/centos/7.6.1810/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso"
+            ],
+            "iso_checksum": "38d5d51d9d100fd73df031ffd6bd8b1297ce24660dc8c13a3b8b4534a4bd291c",
+            "iso_checksum_type": "sha256",
+            "guest_os_type": "RedHat_64",
+            "http_directory": ".",
+            "ssh_username": "root",
+            "ssh_password": "vagrant",
+            "ssh_wait_timeout": "7200s",
+            "boot_command": "<tab> ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter>",
+            "shutdown_command": "poweroff",
+            "hard_drive_interface": "sata",
+            "vboxmanage": [
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--memory",
+                    "1024",
+                    "--cpus",
+                    "4"
+                ]
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "scripts": [
+                "scripts/centos-7-base.sh",
+                "scripts/clean-ssh-host-keys.sh",
+                "scripts/clean-yum.sh"
+            ]
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "vagrant",
+            "output": "boxes/centos-7-{{.Provider}}.box",
+            "keep_input_artifact": true
+        }
+    ]
+}
