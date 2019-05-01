@@ -6,6 +6,11 @@ pipeline {
     }
 
     stages {
+        stage('Clean') {
+            steps {
+                sh 'rm -rf output-virtualbox* boxes'
+            }
+        }
         stage('Build Base') {
             steps {
                 sh 'packer build centos-7-base.json'
