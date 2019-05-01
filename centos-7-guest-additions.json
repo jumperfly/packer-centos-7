@@ -1,0 +1,45 @@
+{
+    "variables": {
+        "image_version": "{{env `IMAGE_VERSION`}}"
+    },
+    "builders": [
+        {
+            "type": "virtualbox-ovf",
+            "vm_name": "centos-7-guest-additions",
+            "headless": true,
+            "source_path": "output-virtualbox-iso/centos-7-base.ovf",
+            "http_directory": ".",
+            "ssh_username": "root",
+            "ssh_password": "vagrant",
+            "shutdown_command": "poweroff",
+            "vboxmanage": [
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--memory",
+                    "2048",
+                    "--cpus",
+                    "4"
+                ]
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "scripts": [
+                "scripts/centos-7-guest-additions-virtualbox.sh",
+                "scripts/clean-ssh-host-keys.sh",
+                "scripts/clean-yum.sh",
+                "scripts/zero-disk.sh"
+            ]
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "vagrant",
+            "output": "boxes/centos-7-guest-additions-{{.Provider}}.box",
+            "keep_input_artifact": true
+        }
+    ]
+}
