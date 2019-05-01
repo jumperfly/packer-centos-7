@@ -4,6 +4,7 @@
             "type": "virtualbox-iso",
             "vm_name": "centos-7-base",
             "guest_additions_mode": "disable",
+            "headless": true,
             "iso_urls": [
                 "http://www.mirrorservice.org/sites/mirror.centos.org/7.6.1810/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso",
                 "http://mirrors.melbourne.co.uk/sites/ftp.centos.org/centos/7.6.1810/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso",
