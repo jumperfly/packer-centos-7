@@ -1,0 +1,56 @@
+{
+    "variables": {
+        "vagrant_home": "{{env `HOME`}}/.vagrant.d",
+        "centos_major_minor": "{{env `CENTOS_MAJOR_MINOR`}}",
+        "base_box_revision": "{{env `BASE_BOX_REVISION`}}",
+        "image_revision": "{{env `BUILD_NUMBER`}}"
+    },
+    "builders": [
+        {
+            "type": "virtualbox-ovf",
+            "vm_name": "centos-7",
+            "headless": true,
+            "source_path": "{{ user `vagrant_home` }}/boxes/jumperfly-VAGRANTSLASH-centos-7-base/{{ user `centos_major_minor` }}.{{ user `base_box_revision` }}/virtualbox/box.ovf",
+            "http_directory": ".",
+            "ssh_username": "root",
+            "ssh_password": "vagrant",
+            "shutdown_command": "poweroff",
+            "vboxmanage": [
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--memory",
+                    "2048",
+                    "--cpus",
+                    "4"
+                ]
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": "yum -y update && reboot",
+            "expect_disconnect": true
+        },
+        {
+            "type": "shell",
+            "script": "centos-7.sh",
+            "pause_before": "15s"
+        }
+    ],
+    "post-processors": [
+        [
+            {
+                "type": "vagrant",
+                "output": "output-virtualbox-ovf/centos-7-{{.Provider}}.box",
+                "keep_input_artifact": true
+            },
+            {
+                "type": "vagrant-cloud",
+                "box_tag": "jumperfly/centos-7",
+                "version": "{{user `centos_major_minor`}}.{{user `image_revision`}}"
+            }
+        ]
+    ]
+}

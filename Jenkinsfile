@@ -5,25 +5,30 @@ pipeline {
         ansiColor('xterm')
     }
 
+    environment {
+        VAGRANT_CLOUD_TOKEN = credentials('vagrant-cloud')
+        CENTOS_MAJOR_MINOR = "7.6"
+        BASE_BOX_REVISION = "2"
+        BASE_BOX_VERSION = "${CENTOS_MAJOR_MINOR}.${BASE_BOX_REVISION}"
+    }
+
     stages {
         stage('Clean') {
             steps {
-                sh 'rm -rf output-virtualbox* boxes'
+                sh 'rm -rf output-virtualbox-ovf'
             }
         }
-        stage('Build Base') {
+        stage ('Download Base Box') {
+            when { 
+                expression { return !fileExists("$HOME/.vagrant.d/boxes/jumperfly-VAGRANTSLASH-centos-7-base/$BASE_BOX_VERSION/virtualbox/box.ovf") }
+            }
             steps {
-                sh 'packer build centos-7-base.json'
+                sh "vagrant box add jumperfly/centos-7-base --box-version $BASE_BOX_VERSION"
             }
         }
-        stage('Build Guest Additions') {
+        stage('Build') {
             steps {
-                sh 'packer build centos-7-guest-additions.json'
-            }
-        }
-        stage('Build Ansible') {
-            steps {
-                sh 'packer build centos-7-ansible.json'
+                sh 'packer build centos-7.json'
             }
         }
     }
