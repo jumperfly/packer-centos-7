@@ -7,8 +7,8 @@ pipeline {
 
     environment {
         VAGRANT_CLOUD_TOKEN = credentials('vagrant-cloud')
-        CENTOS_MAJOR_MINOR = "7.6"
-        BASE_BOX_REVISION = "2"
+        CENTOS_MAJOR_MINOR = "7.7"
+        BASE_BOX_REVISION = "3"
         BASE_BOX_VERSION = "${CENTOS_MAJOR_MINOR}.${BASE_BOX_REVISION}"
     }
 
