@@ -10,3 +10,5 @@
 **/*.vmdk
 **/*.iso
 **/*.retry
+output*
+packer_cache
