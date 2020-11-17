@@ -3,4 +3,4 @@ steps:
 - id: build
   name: 'gcr.io/jumperfly/packer-virtualbox-builder'
   env:
-    - PACKER_BUILD_TARGET=packer.json
+    - PACKER_BUILD_TARGET=centos-7.json
