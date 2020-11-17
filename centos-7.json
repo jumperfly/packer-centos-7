@@ -1,8 +1,8 @@
 {
     "variables": {
-        "centos_major_minor": "7.8",
-        "centos_yymm": "2003",
-        "iso_checksum": "sha256:659691c28a0e672558b003d223f83938f254b39875ee7559d1a4a14c79173193",
+        "centos_major_minor": "7.9",
+        "centos_yymm": "2009",
+        "iso_checksum": "sha256:07b94e6b1a0b0260b94c83d6bb76b26bf7a310dc78d7a9c7432809fb9bc6194a",
         "image_revision": "{{env `BUILD_NUMBER`}}",
         "skip_shrink": ""
     },
