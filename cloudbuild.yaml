@@ -1,6 +1,7 @@
-timeout: 30m
+timeout: 60m
 steps:
 - id: build
   name: 'gcr.io/jumperfly/packer-virtualbox-builder'
   env:
     - PACKER_BUILD_TARGET=centos-7.json
+    - INSTANCE_MACHINE_TYPE=n2-highcpu-4
