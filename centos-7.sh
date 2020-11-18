@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# The host DNS server seems to get used by default which is inaccessible when running in GCP, use Google's DNS instead
+sed -i 's/nameserver .*/nameserver 8.8.8.8/' /etc/resolv.conf
+
 # SSH/DNS optimisations
 echo 'RES_OPTIONS="single-request-reopen"' >> /etc/sysconfig/network
 sed -i 's/^#\?UseDNS .*/UseDNS no/' /etc/ssh/sshd_config
